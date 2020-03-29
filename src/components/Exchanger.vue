@@ -1,69 +1,77 @@
 <template>
-    <div>
-    
-    <v-card>
-        <v-container>
-
+    <div class="background">
+        <v-container class="pb-10">
             <!-- Input Row -->
-            <v-row>
+            <v-row class="pb-6">
 
                 <!-- From Currency Input Value -->
                 <v-col cols="12" md="3">
-                    <v-text-field label="Amount" v-model="inputConversionAmount" type="number" outlined>
+                    <p class="input-label">Amount</p>
+                    <v-text-field background-color="white" v-model="inputConversionAmount" type="number" outlined rounded @click="clickAmount" v-on-clickaway="awayAmount">
                     </v-text-field>
                 </v-col>
 
                 <!-- From Currency Selector -->
 
                 <v-col cols="12" md="3">
-                    <v-select :items="currencies" item-text="compiled" item-value="abbr" label="From" v-model="inputFromCurrency" outlined>
+                    <p class="input-label">From</p>
+                    <v-select background-color="white" :items="currencies" item-text="compiled" item-value="abbr" v-model="inputFromCurrency" outlined rounded>
                     </v-select>
                 </v-col>
 
                 <!-- Swap Currency Arrow -->
                 <v-col cols="1" class="d-none d-md-flex">
-                    <v-icon v-on:click="swapCurrency">mdi-swap-horizontal</v-icon>
+                    <v-icon large color="white" v-on:click="swapCurrency">mdi-swap-horizontal</v-icon>
                 </v-col>
 
                 <!-- To Currency Selector -->
                 <v-col cols="12" md="3">
-                    <v-select :items="currencies" item-text="compiled" item-value="abbr" label="To" v-model="inputToCurrency" outlined>
+                    <p class="input-label">To</p>
+                    <v-select background-color="white" :items="currencies" item-text="compiled" item-value="abbr" v-model="inputToCurrency" outlined rounded>
                     </v-select>
                 </v-col>
 
                 <!-- Submit Button -->
                 <v-col cols="12" md="2" align-self="center">
-                    <v-btn class="align-center" block v-on:click="exchangeCurrency">Go</v-btn>
+                    <v-btn class="align-center" v-on:click="exchangeCurrency"><v-icon>mdi-chevron-right</v-icon></v-btn>
                 </v-col>
             </v-row>
 
             <!-- Output Row -->
             <v-row>
                <v-col cols="12" class="text-center">
-                   <h1 v-if="exchangeVisible">{{this.outputConversionAmount}} {{this.outputFromCurrency}} = {{this.resultAmount}} {{this.outputToCurrency}}</h1>
+                   <h1 v-if="exchangeVisible">{{this.outputConversionAmount}} {{this.outputFromCurrency}} = <h1 class="display-total">{{this.resultAmount}} {{this.outputToCurrency}}</h1></h1>
                    <h2 v-if="singleExchangeVisible">1 {{this.outputFromCurrency}} = {{this.exchangeRate}} {{this.outputToCurrency}}</h2>
                    <h2 v-if="exchangeVisible"> 1 {{this.outputToCurrency}} = {{this.reverseExchangeRate}} {{this.outputFromCurrency}}</h2>
                    <h3 v-if="exchangeVisible" class="last-updated">Last Updated:  {{this.updatedDate}}</h3>
                    <v-progress-circular v-if="loadingCircleVisible" indeterminate color="primary"></v-progress-circular>
                </v-col> 
             </v-row>
-        </v-container>
-    </v-card>
 
-    <v-row v-if="exchangeVisible" class="mt-8">
-        <v-col cols="6">
-            <ExchangerTable :exchangeDetails="exchangeDetails"/>
-        </v-col>
-        <v-col cols="6">
-            <ExchangerTable :exchangeDetails="reverseExchangeDetails"/>
-        </v-col>
-    </v-row>
+        </v-container>
+
+    <!-- Exchange Table -->
+    <div class="table-background">
+        <div class="separator"></div>
+            <v-container>
+                <v-row v-if="exchangeVisible" class="mt-8">
+                    <v-col cols="6">
+                        <ExchangerTable :exchangeDetails="exchangeDetails"/>
+                    </v-col>
+                    <v-col cols="6">
+                        <ExchangerTable :exchangeDetails="reverseExchangeDetails"/>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </div>
     </div>
+
 </template>
 
 <script>
 import axios from 'axios'
 import ExchangerTable from './ExchangerTable'
+import { mixin as clickaway} from 'vue-clickaway'
 
 export default {
     name: 'Exchanger',
@@ -79,7 +87,7 @@ export default {
                 {abbr: 'USD', name: 'US Dollar', compiled: 'USD - US Dollar', flag: require('../assets/usIcon.svg')},
                 {abbr: 'AUD', name: 'Australian Dollar', compiled: 'AUD - Australian Dollar', flag: require('../assets/australiaIcon.svg')},
                 {abbr: 'JPY', name: 'Japanese Yen', compiled: 'JPY - Japanese Yen', flag: require('../assets/japanIcon.svg')},
-                {abbr: 'CNH', name: 'Chinese Yuan Renminbi', compiled: 'CNH - Chinese Yuan Renminbi', flag: require('../assets/chinaIcon.svg')},
+                // {abbr: 'CNH', name: 'Chinese Yuan Renminbi', compiled: 'CNH - Chinese Yuan Renminbi', flag: require('../assets/chinaIcon.svg')},
                 {abbr: 'HKD', name: 'Hong Kong Dollar', compiled: 'HKD - Hong Kong Dollar', flag: require('../assets/hkIcon.svg')},
                 {abbr: 'CAD', name: 'Canadian Dollar', compiled: 'CAD - Canadian Dollar', flag: require('../assets/canadaIcon.svg')},
                 {abbr: 'INR', name: 'Indian Rupee', compiled: 'INR - Indian Rupee', flag: require('../assets/indiaIcon.svg')},
@@ -109,7 +117,19 @@ export default {
             error: ''
         }
     },
+    mixins: [ clickaway ],
     methods: {
+        clickAmount() {
+            this.inputConversionAmount = ""
+        },
+        awayAmount() {
+            if (this.inputConversionAmount === "") this.inputConversionAmount = 1
+            const amount = parseInt(this.inputConversionAmount)
+
+            // Why does this change number that start with 0 e.g 0.4?
+            if (amount === 0) this.inputConversionAmount = 1
+            if (amount < 0) this.inputConversionAmount = amount * -1
+        },
         swapCurrency() {
             const from = this.inputFromCurrency
             const to = this.inputToCurrency
@@ -184,9 +204,31 @@ export default {
 </script>
 
 <style scoped>
+.separator {
+    width: 100%;
+    height: 6px;
+    background-color: rgb(252, 184, 19);
+    padding: 0;
+    margin: 0;
+}
+.background {
+    background-color: transparent;
+    color: white;
+}
+.input-label {
+    padding: 0px 0px 6px 4px;
+    margin: 0;
+    font-weight: bold;
+}
 .last-updated {
     margin-top: 10px;
     font-weight: normal;
     font-size: 1em;
+}
+.table-background {
+    background-color: white;
+}
+.display-total {
+    font-size: 2.8em;
 }
 </style>

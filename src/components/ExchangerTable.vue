@@ -110,7 +110,7 @@ export default {
 }
 
 .flag {
-    max-width: 30%;
+    max-width: 40%;
 }
 
 .conversion-title {
