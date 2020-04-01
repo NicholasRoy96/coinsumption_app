@@ -67,11 +67,11 @@ export default {
                 {fromValue: `5 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.five.toFixed(5)} ${toCurrencyDetails.abbr}`},
                 {fromValue: `10 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.ten.toFixed(4)} ${toCurrencyDetails.abbr}`},
                 {fromValue: `25 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.twentyfive.toFixed(4)} ${toCurrencyDetails.abbr}`},
-                {fromValue: `50 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.fifty.toFixed(4)} ${toCurrencyDetails.abbr}`},
+                {fromValue: `50 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.fifty.toFixed(3)} ${toCurrencyDetails.abbr}`},
                 {fromValue: `100 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.onehundred.toFixed(3)} ${toCurrencyDetails.abbr}`},
-                {fromValue: `500 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.fivehundred.toFixed(3)} ${toCurrencyDetails.abbr}`},
-                {fromValue: `1000 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.onethousand.toFixed(3)} ${toCurrencyDetails.abbr}`},
-                {fromValue: `5000 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.fivethousand.toFixed(3)} ${toCurrencyDetails.abbr}`},
+                {fromValue: `500 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.fivehundred.toFixed(2)} ${toCurrencyDetails.abbr}`},
+                {fromValue: `1000 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.onethousand.toFixed(2)} ${toCurrencyDetails.abbr}`},
+                {fromValue: `5000 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.fivethousand.toFixed(2)} ${toCurrencyDetails.abbr}`},
                 {fromValue: `10000 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.tenthousand.toFixed(2)} ${toCurrencyDetails.abbr}`},
                 {fromValue: `50000 ${fromCurrencyDetails.abbr}`, toValue: `${this.exchangeValues.fiftythousand.toFixed(2)} ${toCurrencyDetails.abbr}`}
             ]

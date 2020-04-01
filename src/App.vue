@@ -6,21 +6,18 @@
       color="transparent"
       dark
       class="navbar"
-      elevate-on-scroll
     >
       <div class="d-flex align-center">
         <v-img
           alt=""
-          class="mr-2"
+          class="logo"
           contain
           src="./assets/logo.png"
           transition="scale-transition"
-          width="200"
         />
       </div>
 
       <v-spacer></v-spacer>
-
     </v-app-bar>
 
     <v-content>
@@ -60,6 +57,9 @@ export default {
 <style scoped>
 .navbar {
   position: fixed;
+}
+.logo {
+  width: 200px;
 }
 .background {
   background-color: #1938a8;
