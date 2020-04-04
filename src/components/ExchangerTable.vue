@@ -23,7 +23,7 @@
             :headers="headers"
             :items="values"
             hide-default-footer
-            class="mt-4"
+            class="mt-5 mr-10 ml-10 mb-5"
         ></v-data-table>
     </div>
 </template>
@@ -108,14 +108,15 @@ export default {
     display: flex;
     justify-content: center;
 }
-
 .flag {
     max-width: 40%;
 }
-
 .conversion-title {
-    font-size: 1.3em;
-    letter-spacing: 1px;
-    color: #1f3c5e;
+    color: #002272;
+    font: 20px "Noto Sans", sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+    line-height: 1.3;
 }
+
 </style>

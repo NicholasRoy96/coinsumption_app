@@ -1,8 +1,19 @@
 <template>
     <div class="background">
+
+        <!-- Dynamic Titles -->
         <v-container class="pb-10">
+            <v-row>
+                <div v-if="!exchangeVisible" class="d-flex">
+                    <h1 class="home-title">Live Market Rates</h1>
+                    <v-icon large color="blue">mdi-chart-line</v-icon>
+                </div>
+                <div v-if="exchangeVisible">
+                    <h1 class="exchange-title">{{this.outputConversionAmount}} {{this.outputFromCurrency}} to {{this.outputToCurrency}} = {{this.resultAmount}} {{this.outputToCurrencyName}}</h1>
+                </div>
+            </v-row>
         <!-- Input Row -->
-            <v-row class="pb-6">
+            <v-row class="pb-6 pl-6 pr-6">
 
                 <!-- From Currency Input Value -->
                 <v-col cols="12" md="3">
@@ -12,7 +23,6 @@
                 </v-col>
 
                 <!-- From Currency Selector -->
-
                 <v-col cols="12" md="3">
                     <p class="input-label">From</p>
                     <v-select background-color="white" :items="currencies" item-text="compiled" item-value="abbr" v-model="inputFromCurrency" outlined rounded>
@@ -21,7 +31,9 @@
 
                 <!-- Swap Currency Arrow -->
                 <v-col cols="1" class="d-none d-md-flex">
-                    <v-icon large color="white" v-on:click="swapCurrency">mdi-swap-horizontal</v-icon>
+                        <div class="icon-div">
+                            <v-icon x-large color="white" v-on:click="swapCurrency">mdi-swap-horizontal</v-icon>
+                        </div>
                 </v-col>
 
                 <!-- To Currency Selector -->
@@ -33,7 +45,11 @@
 
                 <!-- Submit Button -->
                 <v-col cols="12" md="2" align-self="center">
-                    <v-btn class="align-center" rounded v-on:click="exchangeCurrency"><v-icon>mdi-chevron-right</v-icon></v-btn>
+                    <v-btn class="submit-button" color="rgb(252, 184, 19)" fab v-on:click="exchangeCurrency">
+                        <v-icon size="70" color="white">
+                            mdi-chevron-right
+                        </v-icon>
+                    </v-btn>
                 </v-col>
             </v-row>
 
@@ -44,7 +60,6 @@
                    <h2 v-if="singleExchangeVisible">1 {{this.outputFromCurrency}} = {{this.exchangeRate}} {{this.outputToCurrency}}</h2>
                    <h2 v-if="exchangeVisible"> 1 {{this.outputToCurrency}} = {{this.reverseExchangeRate}} {{this.outputFromCurrency}}</h2>
                    <h3 v-if="exchangeVisible" class="last-updated">Last Updated:  {{this.updatedDate}}</h3>
-                   <v-progress-circular v-if="loadingCircleVisible" indeterminate color="white"></v-progress-circular>
                </v-col> 
             </v-row>
 
@@ -63,6 +78,11 @@
                     </v-row>
                 </v-container>
         </div>
+    
+    <!-- Loading Overlay -->
+    <v-overlay :value="loadingCircle">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
 
     <!-- Fallback Rates Snackbar -->
         <v-snackbar
@@ -70,11 +90,11 @@
             :multi-line="multiLine"
             bottom
             right
-            timeout="60000"
+            :timeout="timeout"
             >
             {{ snackbarText }}
             <v-btn
-                color="red"
+                color="#b3c6e8"
                 text
                 @click="snackbar = false"
             >
@@ -99,23 +119,23 @@ export default {
     data () {
         return {
             currencies: [
-                {abbr: 'SGD', name: 'Singapore Dollar', compiled: 'SGD - Singapore Dollar', flag: require('../assets/ukIcon.svg') },
-                {abbr: 'MYR', name: 'Malaysian Ringgit', compiled: 'MYR - Malaysian Ringgit', flag: require('../assets/malaysiaIcon.svg')},
-                {abbr: 'EUR', name: 'Euro', compiled: 'EUR - Euro', flag: require('../assets/euroIcon.svg')},
-                {abbr: 'USD', name: 'US Dollar', compiled: 'USD - US Dollar', flag: require('../assets/usIcon.svg')},
-                {abbr: 'AUD', name: 'Australian Dollar', compiled: 'AUD - Australian Dollar', flag: require('../assets/australiaIcon.svg')},
+                {abbr: 'SGD', name: 'Singapore Dollars', compiled: 'SGD - Singapore Dollar', flag: require('../assets/ukIcon.svg') },
+                {abbr: 'MYR', name: 'Malaysian Ringgits', compiled: 'MYR - Malaysian Ringgit', flag: require('../assets/malaysiaIcon.svg')},
+                {abbr: 'EUR', name: 'Euros', compiled: 'EUR - Euro', flag: require('../assets/euroIcon.svg')},
+                {abbr: 'USD', name: 'US Dollars', compiled: 'USD - US Dollar', flag: require('../assets/usIcon.svg')},
+                {abbr: 'AUD', name: 'Australian Dollars', compiled: 'AUD - Australian Dollar', flag: require('../assets/australiaIcon.svg')},
                 {abbr: 'JPY', name: 'Japanese Yen', compiled: 'JPY - Japanese Yen', flag: require('../assets/japanIcon.svg')},
                 // {abbr: 'CNH', name: 'Chinese Yuan Renminbi', compiled: 'CNH - Chinese Yuan Renminbi', flag: require('../assets/chinaIcon.svg')},
-                {abbr: 'HKD', name: 'Hong Kong Dollar', compiled: 'HKD - Hong Kong Dollar', flag: require('../assets/hkIcon.svg')},
-                {abbr: 'CAD', name: 'Canadian Dollar', compiled: 'CAD - Canadian Dollar', flag: require('../assets/canadaIcon.svg')},
-                {abbr: 'INR', name: 'Indian Rupee', compiled: 'INR - Indian Rupee', flag: require('../assets/indiaIcon.svg')},
+                {abbr: 'HKD', name: 'Hong Kong Dollars', compiled: 'HKD - Hong Kong Dollar', flag: require('../assets/hkIcon.svg')},
+                {abbr: 'CAD', name: 'Canadian Dollars', compiled: 'CAD - Canadian Dollar', flag: require('../assets/canadaIcon.svg')},
+                {abbr: 'INR', name: 'Indian Rupees', compiled: 'INR - Indian Rupee', flag: require('../assets/indiaIcon.svg')},
                 {abbr: 'DKK', name: 'Danish Krone', compiled: 'DKK - Danish Krone', flag: require('../assets/denmarkIcon.svg')},
-                {abbr: 'GBP', name: 'British Pound', compiled: 'GBP - British Pound', flag: require('../assets/ukIcon.svg')},
-                {abbr: 'RUB', name: 'Russian Ruble', compiled: 'RUB - Russian Ruble', flag: require('../assets/russiaIcon.svg')},
-                {abbr: 'NZD', name: 'New Zealand Dollar', compiled: 'NZD - New Zealand Dollar', flag: require('../assets/nzIcon.svg')},
-                {abbr: 'MXN', name: 'Mexican Peso', compiled: 'MXN - Mexican Peso', flag: require('../assets/mexicoIcon.svg')},
+                {abbr: 'GBP', name: 'British Pounds', compiled: 'GBP - British Pound', flag: require('../assets/ukIcon.svg')},
+                {abbr: 'RUB', name: 'Russian Rubles', compiled: 'RUB - Russian Ruble', flag: require('../assets/russiaIcon.svg')},
+                {abbr: 'NZD', name: 'New Zealand Dollars', compiled: 'NZD - New Zealand Dollar', flag: require('../assets/nzIcon.svg')},
+                {abbr: 'MXN', name: 'Mexican Pesos', compiled: 'MXN - Mexican Peso', flag: require('../assets/mexicoIcon.svg')},
                 {abbr: 'IDR', name: 'Indonesian Rupiah', compiled: 'IDR - Indonesian Rupiah', flag: require('../assets/indonesiaIcon.svg')},
-                {abbr: 'TWD', name: 'Taiwan New Dollar', compiled: 'TWD - Taiwan New Dollar', flag: require('../assets/taiwanIcon.svg')},
+                {abbr: 'TWD', name: 'Taiwan New Dollars', compiled: 'TWD - Taiwan New Dollar', flag: require('../assets/taiwanIcon.svg')},
                 {abbr: 'THB', name: 'Thai Baht', compiled: 'THB - Thai Baht', flag: require('../assets/thailandIcon.svg')},
                 {abbr: 'VND', name: 'Vietnamese Dong', compiled: 'VND - Vietnamese Dong', flag: require('../assets/vietnamIcon.svg')}
             ],
@@ -125,15 +145,17 @@ export default {
             outputConversionAmount: 0,
             outputFromCurrency: '',
             outputToCurrency: '',
+            outputToCurrencyName: '',
             resultAmount: 0,
             exchangeRate: 0,
             reverseExchangeRate: 0,
             exchangeVisible: false,
             singleExchangeVisible: false,
-            loadingCircleVisible: false,
+            loadingCircle: false,
             updatedDate: '',
             snackbar: false,
             multiLine: true,
+            timeout: 0,
             snackbarText: "There seems to be an issue with the Open API being used for the currency exchange. For demo purposes, this app will use fallback exchange rates saved locally which may not currently be accurate.",
             error: false
         }
@@ -159,9 +181,7 @@ export default {
         },
         async exchangeCurrency() {
             this.error = false
-            this.exchangeVisible = false
-            this.singleExchangeVisible = false
-            this.loadingCircleVisible = true
+            this.loadingCircle = true
             const exchangeOriginal = {
                 "method":"GET",
                 "url":"https://currency-exchange.p.rapidapi.com/exchange",
@@ -188,33 +208,60 @@ export default {
             }
             axios.all([axios(exchangeOriginal), axios(exchangeReverse)])
             .then(axios.spread((...responses) => {
-                this.loadingCircleVisible = false
                 this.outputConversionAmount = this.inputConversionAmount
                 this.outputFromCurrency = this.inputFromCurrency
                 this.outputToCurrency = this.inputToCurrency
+                const currencyObject = this.currencies.filter(currency => currency.abbr === this.outputToCurrency).pop()
+                this.outputToCurrencyName = currencyObject.name
                 this.exchangeRate = responses[0].data
                 this.reverseExchangeRate = responses[1].data
                 this.resultAmount = this.outputConversionAmount * this.exchangeRate
+                if (this.resultAmount <= 9) {
+                    this.resultAmount = this.resultAmount.toFixed(5)
+                }
+                if (this.resultAmount >= 10 && this.resultAmount <= 49) {
+                    this.resultAmount = this.resultAmount.toFixed(4)
+                }
+                if (this.resultAmount >= 50 && this.resultAmount <= 100) {
+                    this.resultAmount = this.resultAmount.toFixed(3)
+                }
+                if (this.resultAmount >= 101) {
+                    this.resultAmount = this.resultAmount.toFixed(2)
+                }
+                this.loadingCircle = false
                 this.exchangeVisible = true
                 if (this.outputConversionAmount !== 1) this.singleExchangeVisible = true
                 this.updatedDate = new Date().toUTCString()
             }))
             .catch((error) => {
                 console.log(error)
-                this.loadingCircleVisible = false
                 this.error = true
-                this.snackbar = true
                 this.fallbackExchange()
             })
         },
         async fallbackExchange() {
-            this.loadingCircleVisible = false
             this.outputConversionAmount = this.inputConversionAmount
             this.outputFromCurrency = this.inputFromCurrency
             this.outputToCurrency = this.inputToCurrency
+            const currencyObject = this.currencies.filter(currency => currency.abbr === this.outputToCurrency).pop()
+            this.outputToCurrencyName = currencyObject.name
             this.exchangeRate = fallbackJSON[this.outputFromCurrency][this.outputToCurrency]
             this.reverseExchangeRate = fallbackJSON[this.outputToCurrency][this.outputFromCurrency]
             this.resultAmount = this.outputConversionAmount * this.exchangeRate
+            if (this.resultAmount <= 9) {
+                this.resultAmount = this.resultAmount.toFixed(5)
+            }
+            if (this.resultAmount > 9 && this.resultAmount <= 49) {
+                this.resultAmount = this.resultAmount.toFixed(4)
+            }
+            if (this.resultAmount > 49 && this.resultAmount <= 999) {
+                this.resultAmount = this.resultAmount.toFixed(3)
+            }
+            if (this.resultAmount > 999) {
+                this.resultAmount = this.resultAmount.toFixed(2)
+            }
+            this.loadingCircle = false
+            this.snackbar = true
             this.exchangeVisible = true
             if (this.outputConversionAmount !== 1) this.singleExchangeVisible = true
             this.updatedDate = new Date().toUTCString()
@@ -242,22 +289,34 @@ export default {
 </script>
 
 <style scoped>
-.input-value input[type='number'] {
-    -moz-appearance:textfield;
+.home-title {
+    margin: 20px 10px 20px 0px;
+    font-size: 2.5em;
+    color: white;
 }
-.input-value input::-webkit-outer-spin-button,
-.input-value input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+.exchange-title {
+    margin: 20px 10px 20px 0px;
+    font-size: 2em;
+    color: white;
 }
 .background {
     background-color: transparent;
     color: white;
-    border-bottom: 5px solid rgb(252, 184, 19);
 }
 .input-label {
     padding: 0px 0px 6px 4px;
     margin: 0;
     font-weight: bold;
+}
+.icon-div {
+    margin: auto;
+    width: 50%;
+}
+.submit-button {
+    color: rgb(252, 184, 19);
+}
+.submit-button:hover {
+    color: #005CEF;
 }
 .last-updated {
     margin-top: 10px;
