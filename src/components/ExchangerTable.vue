@@ -118,5 +118,4 @@ export default {
     letter-spacing: 0.7px;
     line-height: 1.3;
 }
-
 </style>

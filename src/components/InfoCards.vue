@@ -2,7 +2,7 @@
     <div class="background">
         <v-container>
             <v-row justify="center">
-                <v-col cols="6" lg="5">
+                <v-col cols="12" md="6" lg="5">
                     <v-container class="card-one">
                         <div align="center">
                             <v-icon color="#002272" size="100">{{cardOne.icon}}</v-icon>
@@ -17,7 +17,7 @@
                     </v-container>
                 </v-col>
 
-                <v-col cols="6" lg="5">
+                <v-col cols="12" md="6" lg="5">
                     <v-container class="card-two">
                         <div align="center">
                             <v-icon color="#002272" size="100">{{cardTwo.icon}}</v-icon>
@@ -93,6 +93,20 @@ ul li::before {
 }
 .card-button-div {
     margin-top: 40px;
+}
+
+/* MEDIA QUERIES */
+
+/* MD */
+@media (max-width: 960px) {
+    .card-one {
+        border-right: none;
+        border-bottom: 1px solid lightgrey;
+        padding: 40px;
+    }
+    .card-two {
+        padding: 40px;
+    }
 }
 
 </style>

@@ -5,7 +5,7 @@
       app
       dark
       flat
-      color="#244685"
+      color="#002272"
       class="navbar"
     >
       <div class="d-flex align-center">

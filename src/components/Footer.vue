@@ -1,11 +1,13 @@
 <template>
     <v-footer
+    color="#002272"
     padless
   >
     <v-card
       flat
       tile
-      class="indigo lighten-1 white--text text-center"
+      color="transparent"
+      class="lighten-1 white--text text-center"
       width="100%"
     >
       <v-card-text>

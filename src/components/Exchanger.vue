@@ -3,12 +3,11 @@
 
         <!-- Dynamic Titles -->
         <v-container class="pb-10">
-                <h1 v-if="!exchangeVisible" class="home-title">Currency Converter</h1>
-                <div v-if="!exchangeVisible" class="d-flex">
+                <div v-if="!exchangeVisible" class="home-titles-div">
+                    <h1 v-if="!exchangeVisible" class="home-title">Currency Converter</h1>
                     <h1 class="home-subtitle">Live Market Rates</h1>
-                    <!-- <v-icon large color="blue">mdi-chart-line</v-icon> -->
                 </div>
-                <div v-if="exchangeVisible">
+                <div v-if="exchangeVisible" class="exchange-titles-div">
                     <h1 class="exchange-title">{{this.outputConversionAmount}} {{this.outputFromCurrency}} to {{this.outputToCurrency}} = {{this.resultAmount}} {{this.outputToCurrencyName}}</h1>
                 </div>
         <!-- Input Row -->
@@ -43,9 +42,16 @@
                 </v-col>
 
                 <!-- Submit Button -->
+                <!-- D-MD + -->
                 <v-col cols="12" md="2" align-self="center">
-                    <v-btn class="submit-button" color="rgb(252, 184, 19)" fab v-on:click="exchangeCurrency">
+                    <v-btn class="submit-button d-none d-md-flex" color="rgb(252, 184, 19)" fab v-on:click="exchangeCurrency">
                         <v-icon size="70" color="white">
+                            mdi-chevron-right
+                        </v-icon>
+                    </v-btn>
+                <!-- D-SM - -->
+                    <v-btn large class="submit-button d-md-none" color="rgb(252, 184, 19)" block rounded v-on:click="exchangeCurrency">
+                        <v-icon large color="white">
                             mdi-chevron-right
                         </v-icon>
                     </v-btn>
@@ -68,10 +74,10 @@
         <div v-if="exchangeVisible" class="table-main-background">
                 <v-container class="table-background">
                     <v-row v-if="exchangeVisible" class="mt-8">
-                        <v-col cols="6">
+                        <v-col cols="12" md="6">
                             <ExchangerTable :exchangeDetails="exchangeDetails"/>
                         </v-col>
-                        <v-col cols="6">
+                        <v-col cols="12" md="6">
                             <ExchangerTable :exchangeDetails="reverseExchangeDetails"/>
                         </v-col>
                     </v-row>
@@ -117,27 +123,6 @@ export default {
     },
     data () {
         return {
-            currencies: [
-                {abbr: 'SGD', name: 'Singapore Dollars', compiled: 'SGD - Singapore Dollar', flag: require('../assets/ukIcon.svg') },
-                {abbr: 'MYR', name: 'Malaysian Ringgits', compiled: 'MYR - Malaysian Ringgit', flag: require('../assets/malaysiaIcon.svg')},
-                {abbr: 'EUR', name: 'Euros', compiled: 'EUR - Euro', flag: require('../assets/euroIcon.svg')},
-                {abbr: 'USD', name: 'US Dollars', compiled: 'USD - US Dollar', flag: require('../assets/usIcon.svg')},
-                {abbr: 'AUD', name: 'Australian Dollars', compiled: 'AUD - Australian Dollar', flag: require('../assets/australiaIcon.svg')},
-                {abbr: 'JPY', name: 'Japanese Yen', compiled: 'JPY - Japanese Yen', flag: require('../assets/japanIcon.svg')},
-                // {abbr: 'CNH', name: 'Chinese Yuan Renminbi', compiled: 'CNH - Chinese Yuan Renminbi', flag: require('../assets/chinaIcon.svg')},
-                {abbr: 'HKD', name: 'Hong Kong Dollars', compiled: 'HKD - Hong Kong Dollar', flag: require('../assets/hkIcon.svg')},
-                {abbr: 'CAD', name: 'Canadian Dollars', compiled: 'CAD - Canadian Dollar', flag: require('../assets/canadaIcon.svg')},
-                {abbr: 'INR', name: 'Indian Rupees', compiled: 'INR - Indian Rupee', flag: require('../assets/indiaIcon.svg')},
-                {abbr: 'DKK', name: 'Danish Krone', compiled: 'DKK - Danish Krone', flag: require('../assets/denmarkIcon.svg')},
-                {abbr: 'GBP', name: 'British Pounds', compiled: 'GBP - British Pound', flag: require('../assets/ukIcon.svg')},
-                {abbr: 'RUB', name: 'Russian Rubles', compiled: 'RUB - Russian Ruble', flag: require('../assets/russiaIcon.svg')},
-                {abbr: 'NZD', name: 'New Zealand Dollars', compiled: 'NZD - New Zealand Dollar', flag: require('../assets/nzIcon.svg')},
-                {abbr: 'MXN', name: 'Mexican Pesos', compiled: 'MXN - Mexican Peso', flag: require('../assets/mexicoIcon.svg')},
-                {abbr: 'IDR', name: 'Indonesian Rupiah', compiled: 'IDR - Indonesian Rupiah', flag: require('../assets/indonesiaIcon.svg')},
-                {abbr: 'TWD', name: 'Taiwan New Dollars', compiled: 'TWD - Taiwan New Dollar', flag: require('../assets/taiwanIcon.svg')},
-                {abbr: 'THB', name: 'Thai Baht', compiled: 'THB - Thai Baht', flag: require('../assets/thailandIcon.svg')},
-                {abbr: 'VND', name: 'Vietnamese Dong', compiled: 'VND - Vietnamese Dong', flag: require('../assets/vietnamIcon.svg')}
-            ],
             inputConversionAmount: 1,
             inputFromCurrency: 'GBP',
             inputToCurrency: 'EUR',
@@ -157,6 +142,46 @@ export default {
             timeout: 0,
             snackbarText: "There seems to be an issue with the Open API being used for the currency exchange. For demo purposes, this app will use fallback exchange rates saved locally which may not currently be accurate.",
             error: false
+        }
+    },
+    computed: {
+         currencies() {
+            return [
+                {abbr: 'SGD', name: 'Singapore Dollars', compiled: 'SGD - Singapore Dollar', flag: require('../assets/ukIcon.svg') },
+                {abbr: 'MYR', name: 'Malaysian Ringgits', compiled: 'MYR - Malaysian Ringgit', flag: require('../assets/malaysiaIcon.svg')},
+                {abbr: 'EUR', name: 'Euros', compiled: 'EUR - Euro', flag: require('../assets/euroIcon.svg')},
+                {abbr: 'USD', name: 'US Dollars', compiled: 'USD - US Dollar', flag: require('../assets/usIcon.svg')},
+                {abbr: 'AUD', name: 'Australian Dollars', compiled: 'AUD - Australian Dollar', flag: require('../assets/australiaIcon.svg')},
+                {abbr: 'JPY', name: 'Japanese Yen', compiled: 'JPY - Japanese Yen', flag: require('../assets/japanIcon.svg')},
+                {abbr: 'HKD', name: 'Hong Kong Dollars', compiled: 'HKD - Hong Kong Dollar', flag: require('../assets/hkIcon.svg')},
+                {abbr: 'CAD', name: 'Canadian Dollars', compiled: 'CAD - Canadian Dollar', flag: require('../assets/canadaIcon.svg')},
+                {abbr: 'INR', name: 'Indian Rupees', compiled: 'INR - Indian Rupee', flag: require('../assets/indiaIcon.svg')},
+                {abbr: 'DKK', name: 'Danish Krone', compiled: 'DKK - Danish Krone', flag: require('../assets/denmarkIcon.svg')},
+                {abbr: 'GBP', name: 'British Pounds', compiled: 'GBP - British Pound', flag: require('../assets/ukIcon.svg')},
+                {abbr: 'RUB', name: 'Russian Rubles', compiled: 'RUB - Russian Ruble', flag: require('../assets/russiaIcon.svg')},
+                {abbr: 'NZD', name: 'New Zealand Dollars', compiled: 'NZD - New Zealand Dollar', flag: require('../assets/nzIcon.svg')},
+                {abbr: 'MXN', name: 'Mexican Pesos', compiled: 'MXN - Mexican Peso', flag: require('../assets/mexicoIcon.svg')},
+                {abbr: 'IDR', name: 'Indonesian Rupiah', compiled: 'IDR - Indonesian Rupiah', flag: require('../assets/indonesiaIcon.svg')},
+                {abbr: 'TWD', name: 'Taiwan New Dollars', compiled: 'TWD - Taiwan New Dollar', flag: require('../assets/taiwanIcon.svg')},
+                {abbr: 'THB', name: 'Thai Baht', compiled: 'THB - Thai Baht', flag: require('../assets/thailandIcon.svg')},
+                {abbr: 'VND', name: 'Vietnamese Dong', compiled: 'VND - Vietnamese Dong', flag: require('../assets/vietnamIcon.svg')}
+            ].sort((a, b) => a.abbr.localeCompare(b.abbr))
+         },
+        exchangeDetails() {
+            return {
+                exchangeRate: this.exchangeRate,
+                toCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputToCurrency).pop(),
+                fromCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputFromCurrency).pop()
+            }
+        },
+        reverseExchangeDetails() {
+            return {
+                fromCurrency: this.outputToCurrency,
+                toCurrency: this.outputFromCurrency,
+                exchangeRate: this.reverseExchangeRate,
+                toCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputFromCurrency).pop(),
+                fromCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputToCurrency).pop()
+            }
         }
     },
     mixins: [ clickaway ],
@@ -265,24 +290,6 @@ export default {
             if (this.outputConversionAmount !== 1) this.singleExchangeVisible = true
             this.updatedDate = new Date().toUTCString()
         }
-    },
-    computed: {
-        exchangeDetails() {
-            return {
-                exchangeRate: this.exchangeRate,
-                toCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputToCurrency).pop(),
-                fromCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputFromCurrency).pop()
-            }
-        },
-        reverseExchangeDetails() {
-            return {
-                fromCurrency: this.outputToCurrency,
-                toCurrency: this.outputFromCurrency,
-                exchangeRate: this.reverseExchangeRate,
-                toCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputFromCurrency).pop(),
-                fromCurrencyDetails: this.currencies.filter(currency => currency.abbr === this.outputToCurrency).pop()
-            }
-        }
     }
 }
 </script>
@@ -298,7 +305,6 @@ export default {
     font-size: 2em;
     color: white;
     font-style: italic;
-
 }
 .exchange-title {
     margin: 20px 10px 20px 0px;
@@ -335,5 +341,48 @@ export default {
 }
 .display-total {
     font-size: 2.8em;
+}
+
+/* MEDIA QUERIES */
+
+/* MD */
+@media (max-width: 960px) {
+    .display-total {
+        font-size: 2em;
+    }
+    .home-titles-div {
+        margin-left: 22px;
+    }
+    .home-title {
+        font-size: 2em;
+    }
+    .home-subtitle {
+        font-size: 1.5em;
+    }
+    .exchange-titles-div {
+        margin-left: 20px;
+    }
+    .exchange-title {
+        font-size: 1.7em;
+    }
+}
+
+/* SM */
+@media (max-width: 600px) {
+    .display-total {
+        font-size: 1.4em;
+    }
+    .home-title {
+        font-size: 1.8em;
+    }
+    .home-subtitle {
+        font-size: 1.3em;
+    }
+    .exchange-title {
+        font-size: 1.2em;
+    }
+    .last-updated {
+        font-size: 0.9em;
+    }
 }
 </style>
