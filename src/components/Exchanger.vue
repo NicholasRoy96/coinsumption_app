@@ -3,15 +3,14 @@
 
         <!-- Dynamic Titles -->
         <v-container class="pb-10">
-            <v-row>
+                <h1 v-if="!exchangeVisible" class="home-title">Currency Converter</h1>
                 <div v-if="!exchangeVisible" class="d-flex">
-                    <h1 class="home-title">Live Market Rates</h1>
-                    <v-icon large color="blue">mdi-chart-line</v-icon>
+                    <h1 class="home-subtitle">Live Market Rates</h1>
+                    <!-- <v-icon large color="blue">mdi-chart-line</v-icon> -->
                 </div>
                 <div v-if="exchangeVisible">
                     <h1 class="exchange-title">{{this.outputConversionAmount}} {{this.outputFromCurrency}} to {{this.outputToCurrency}} = {{this.resultAmount}} {{this.outputToCurrencyName}}</h1>
                 </div>
-            </v-row>
         <!-- Input Row -->
             <v-row class="pb-6 pl-6 pr-6">
 
@@ -32,7 +31,7 @@
                 <!-- Swap Currency Arrow -->
                 <v-col cols="1" class="d-none d-md-flex">
                         <div class="icon-div">
-                            <v-icon x-large color="white" v-on:click="swapCurrency">mdi-swap-horizontal</v-icon>
+                            <v-icon class="swap-icon" x-large color="white" v-on:click="swapCurrency">mdi-swap-horizontal</v-icon>
                         </div>
                 </v-col>
 
@@ -290,9 +289,16 @@ export default {
 
 <style scoped>
 .home-title {
-    margin: 20px 10px 20px 0px;
+    margin: 20px 10px 5px 0px;
     font-size: 2.5em;
     color: white;
+}
+.home-subtitle {
+    margin: 0px 10px 20px 0px;
+    font-size: 2em;
+    color: white;
+    font-style: italic;
+
 }
 .exchange-title {
     margin: 20px 10px 20px 0px;
@@ -314,9 +320,6 @@ export default {
 }
 .submit-button {
     color: rgb(252, 184, 19);
-}
-.submit-button:hover {
-    color: #005CEF;
 }
 .last-updated {
     margin-top: 10px;

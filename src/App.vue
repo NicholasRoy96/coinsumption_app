@@ -25,6 +25,7 @@
         <Exchanger />
         <InfoCards />
     </v-content>
+        <Footer />
     </div>
   </v-app>
 </template>
@@ -32,6 +33,7 @@
 <script>
 import Exchanger from './components/Exchanger'
 import InfoCards from './components/InfoCards'
+import Footer from './components/Footer'
 
 
 export default {
@@ -39,7 +41,8 @@ export default {
 
   components: {
     Exchanger,
-    InfoCards
+    InfoCards,
+    Footer
   },
 
   data: () => ({
