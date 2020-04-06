@@ -6,13 +6,16 @@
             </v-col>
         </v-row>
 
-        <v-row class="d-flex">
-            <v-col cols="6">
+        <v-row class="d-none d-sm-flex" justify="center">
+            <v-col cols="5">
                 <div class="flag-container">
                     <v-img class="flag" :src='this.exchangeDetails.fromCurrencyDetails.flag' transition="scale-transition"/>
                 </div>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="2" align-self="center" class="d-none d-md-flex">
+                    <v-icon class="flag-arrow" size="70">mdi-arrow-right-bold-outline</v-icon>
+            </v-col>
+            <v-col cols="5">
                 <div class="flag-container">
                     <v-img class="flag" :src='this.exchangeDetails.toCurrencyDetails.flag' transition="scale-transition"/>
                 </div>
@@ -109,7 +112,10 @@ export default {
     justify-content: center;
 }
 .flag {
-    max-width: 40%;
+    max-width: 58%;
+}
+.flag-arrow {
+    color: #002272;
 }
 .conversion-title {
     color: #002272;
