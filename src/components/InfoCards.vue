@@ -41,7 +41,7 @@ export default {
     name: "InfoCards",
     data () {
         return {
-            cardOne: {icon: "mdi-cash-usd-outline", heading: "International money transfers", list: ["Quick, easy, secure", "Great rates", "Access 24/7"]},
+            cardOne: {icon: "mdi-cash-multiple", heading: "International money transfers", list: ["Quick, easy, secure", "Great rates", "Access 24/7"]},
             cardTwo: {icon: "mdi-bell-alert-outline", heading: "Rate alerts", list: ["Choose a currency pair", "Set your desired mid-market rate", "Receive free email alerts"]}
         }
     }
