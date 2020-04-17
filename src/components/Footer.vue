@@ -30,13 +30,13 @@
       </v-card-text>
 
       <v-card-text class="white--text pt-0">
-          Live exchange rates for this site provided by the <a class="api-link" href="https://rapidapi.com/fyhao/api/currency-exchange" target="_blank">Currency Exchange</a> open API
+          Live exchange rates for this site provided by the <a class="footer-link" href="https://rapidapi.com/fyhao/api/currency-exchange" target="_blank">Currency Exchange</a> open API
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Nicholas Roy</strong>
+        {{ new Date().getFullYear() }} — <a class="footer-link" href="https://nick-roy.herokuapp.com/" target="_blank"><strong>Nicholas Roy</strong></a>
       </v-card-text>
     </v-card>
   </v-footer>
@@ -59,10 +59,10 @@ export default {
 </script>
 
 <style>
-.api-link {
+.footer-link {
     color: white !important;
 }
-.api-link:hover {
+.footer-link:hover {
     color: lightgrey !important;
 }
 </style>
