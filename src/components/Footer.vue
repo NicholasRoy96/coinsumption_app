@@ -1,15 +1,6 @@
 <template>
-    <v-footer
-    color="#002272"
-    padless
-  >
-    <v-card
-      flat
-      tile
-      color="transparent"
-      class="lighten-1 white--text text-center"
-      width="100%"
-    >
+  <v-footer color="#002272" padless>
+    <v-card flat tile color="transparent" class="lighten-1 white--text text-center" width="100%">
       <v-card-text>
         <v-btn
           class="mx-4 white--text"
@@ -30,13 +21,21 @@
       </v-card-text>
 
       <v-card-text class="white--text pt-0">
-          Live exchange rates for this site provided by the <a class="footer-link" href="https://rapidapi.com/fyhao/api/currency-exchange" target="_blank">Currency Exchange</a> open API
+        Live exchange rates for this site provided by the
+        <a
+          class="footer-link"
+          href="https://rapidapi.com/fyhao/api/currency-exchange"
+          target="_blank"
+        >Currency Exchange</a> open API
       </v-card-text>
 
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <a class="footer-link" href="https://nick-roy.herokuapp.com/" target="_blank"><strong>Nicholas Roy</strong></a>
+        {{ new Date().getFullYear() }} —
+        <a class="footer-link" href="https://nick-roy.herokuapp.com/" target="_blank">
+          <strong>Nicholas Roy</strong>
+        </a>
       </v-card-text>
     </v-card>
   </v-footer>
@@ -44,25 +43,25 @@
 
 <script>
 export default {
-    name: 'Footer',
-    data () {
-        return {
-            linkedIn: {
-                icon: 'mdi-linkedin',
-            },
-            github: {
-                icon: 'mdi-github',
-            },
-        }
-    }
-}
+  name: "Footer",
+  data() {
+    return {
+      linkedIn: {
+        icon: "mdi-linkedin"
+      },
+      github: {
+        icon: "mdi-github"
+      }
+    };
+  }
+};
 </script>
 
 <style>
 .footer-link {
-    color: white !important;
+  color: white !important;
 }
 .footer-link:hover {
-    color: lightgrey !important;
+  color: lightgrey !important;
 }
 </style>
