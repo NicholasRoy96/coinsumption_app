@@ -319,8 +319,6 @@ export default {
     awayAmount() {
       if (this.inputConversionAmount === "") this.inputConversionAmount = 1;
       const amount = parseInt(this.inputConversionAmount);
-
-      // Why does this change number that start with 0 e.g 0.4?
       if (amount === 0) this.inputConversionAmount = 1;
       if (amount < 0) this.inputConversionAmount = amount * -1;
     },
@@ -373,6 +371,7 @@ export default {
             this.exchangeRate = responses[0].data;
             this.reverseExchangeRate = responses[1].data;
             this.resultAmount = this.outputConversionAmount * this.exchangeRate;
+            if (this.resultAmount === 0) throw new Error;
             if (this.resultAmount <= 9) {
               this.resultAmount = this.resultAmount.toFixed(5);
             }
