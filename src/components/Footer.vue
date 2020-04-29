@@ -33,7 +33,7 @@
 
       <v-card-text class="white--text">
         {{ new Date().getFullYear() }} —
-        <a class="footer-link" href="https://nick-roy.herokuapp.com/" target="_blank">
+        <a class="footer-link" href="http://nicholasroy.co.uk/" target="_blank">
           <strong>Nicholas Roy</strong>
         </a>
       </v-card-text>
