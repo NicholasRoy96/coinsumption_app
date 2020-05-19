@@ -426,7 +426,7 @@ export default {
       this.snackbar = true;
       this.exchangeVisible = true;
       if (this.outputConversionAmount !== 1) this.singleExchangeVisible = true;
-      this.updatedDate = new Date().toUTCString();
+      this.updatedDate = new Date().toLocaleString();
     }
   }
 };
