@@ -100,12 +100,8 @@
             {{this.outputConversionAmount}} {{this.outputFromCurrency}} =
             <h1 class="display-total">{{this.resultAmount}} {{this.outputToCurrency}}</h1>
           </h1>
-          <h2
-            v-if="singleExchangeVisible"
-          >1 {{this.outputFromCurrency}} = {{this.exchangeRate}} {{this.outputToCurrency}}</h2>
-          <h2
-            v-if="exchangeVisible"
-          >1 {{this.outputToCurrency}} = {{this.reverseExchangeRate}} {{this.outputFromCurrency}}</h2>
+          <h2 v-if="singleExchangeVisible">1 {{this.outputFromCurrency}} = {{this.exchangeRate}} {{this.outputToCurrency}}</h2>
+          <h2 v-if="exchangeVisible">1 {{this.outputToCurrency}} = {{this.reverseExchangeRate}} {{this.outputFromCurrency}}</h2>
           <h3 v-if="exchangeVisible" class="last-updated">Last Updated: {{this.updatedDate}}</h3>
         </v-col>
       </v-row>
