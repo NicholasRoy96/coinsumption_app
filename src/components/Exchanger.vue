@@ -357,6 +357,9 @@ export default {
         .all([axios(exchangeOriginal), axios(exchangeReverse)])
         .then(
           axios.spread((...responses) => {
+            if (typeof responses[0].data !== Number) throw new Error
+            this.exchangeRate = responses[0].data;
+            this.reverseExchangeRate = responses[1].data;
             this.outputConversionAmount = this.inputConversionAmount;
             this.outputFromCurrency = this.inputFromCurrency;
             this.outputToCurrency = this.inputToCurrency;
@@ -364,8 +367,7 @@ export default {
               .filter(currency => currency.abbr === this.outputToCurrency)
               .pop();
             this.outputToCurrencyName = currencyObject.name;
-            this.exchangeRate = responses[0].data;
-            this.reverseExchangeRate = responses[1].data;
+            
             this.resultAmount = this.outputConversionAmount * this.exchangeRate;
             if (this.resultAmount === 0) throw new Error;
             if (this.resultAmount <= 9) {
@@ -405,6 +407,7 @@ export default {
         fallbackJSON[this.outputFromCurrency][this.outputToCurrency];
       this.reverseExchangeRate =
         fallbackJSON[this.outputToCurrency][this.outputFromCurrency];
+      console.log(this.exchangeRate)
       this.resultAmount = this.outputConversionAmount * this.exchangeRate;
       if (this.resultAmount <= 9) {
         this.resultAmount = this.resultAmount.toFixed(5);
